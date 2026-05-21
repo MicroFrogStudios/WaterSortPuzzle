@@ -7,7 +7,7 @@ using Bottle = GameState.Bottle;
 /// <summary>
 /// /// Clase con la l�gica del puzzle, implementa Command Pattern para poder deshacer movimientos,
 /// </summary>
-public class PuzzleController
+public class PuzzleController : MonoBehaviour
 {
     /// <summary>
     /// Interfaz para comandos, realmente no hace falta en este prototipo pues solo tenemos un comando, pero lo incluyo por organizacion y escalabilidad futura.
@@ -62,14 +62,15 @@ public class PuzzleController
 
     public static PuzzleController instance;
 
-    public PuzzleController(GameState state)
+    public void Awake()
     {
-        this.state = state;
         if (instance == null)
         {
             instance = this;
         }
         commandStack = new();
+
+        state = new GameState();
     }
 
     public void AddNewCommand(ICommand command)
@@ -89,7 +90,7 @@ public class PuzzleController
         Bottle to = instance.state.bottles[toIndex];
         if (IsValidPour(from, to))
         {
-            int units = Mathf.Min(from.topCount, to.AvailableSpace);
+            int units = Mathf.Min(from.TopCount, to.AvailableSpace);
 
             AddNewCommand(new PourCommand(fromIndex, toIndex, from.TopColor, units));
         }
