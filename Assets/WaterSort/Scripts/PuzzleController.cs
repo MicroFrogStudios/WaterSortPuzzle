@@ -1,9 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data;
 using UnityEngine;
+using Bottle = GameState.Bottle;
 
 /// <summary>
-/// Clase con la lógica del puzzle, implementa Command Pattern para poder deshacer movimientos, 
+/// /// Clase con la lï¿½gica del puzzle, implementa Command Pattern para poder deshacer movimientos,
 /// </summary>
 public class PuzzleController
 {
@@ -15,24 +17,101 @@ public class PuzzleController
         void Execute();
         void Undo();
     }
+
+    /// <summary>
+    /// Comando para verter agua de una botella a otra, implementa ICommand para poder deshacer el movimiento.
+    /// </summary>
     public class PourCommand : ICommand
     {
+        int fromIndex,
+            toIndex;
+        Color color;
+        int units;
 
-        private GameState.Bottle origin, target;
-        public PourCommand(GameState.Bottle origin, GameState.Bottle target) 
+        public PourCommand(int fromIndex, int toIndex, Color color, int units)
         {
-            this.origin = origin;
-            this.target = target;
+            this.fromIndex = fromIndex;
+            this.toIndex = toIndex;
+            this.color = color;
+            this.units = units;
         }
+
         public void Execute()
         {
-            throw new System.NotImplementedException();
+            var from = instance.state.bottles[fromIndex];
+            var to = instance.state.bottles[toIndex];
+
+            from.RemoveTop(units);
+            to.AddTop(units, color);
         }
 
         public void Undo()
         {
-            throw new System.NotImplementedException();
+            var from = instance.state.bottles[fromIndex];
+            var to = instance.state.bottles[toIndex];
+
+            to.RemoveTop(units);
+            from.AddTop(units, color);
+
+            //event invoke in the future?
         }
     }
-   
+
+    public GameState state;
+    public Stack<ICommand> commandStack;
+
+    public static PuzzleController instance;
+
+    public PuzzleController(GameState state)
+    {
+        this.state = state;
+        if (instance == null)
+        {
+            instance = this;
+        }
+        commandStack = new();
+    }
+
+    public void AddNewCommand(ICommand command)
+    {
+        commandStack.Push(command);
+        command.Execute();
+    }
+
+    public void undoLastCommand()
+    {
+        commandStack.Pop().Undo();
+    }
+
+    public void TryPour(int fromIndex, int toIndex)
+    {
+        Bottle from = instance.state.bottles[fromIndex];
+        Bottle to = instance.state.bottles[toIndex];
+        if (IsValidPour(from, to))
+        {
+            int units = Mathf.Min(from.topCount, to.AvailableSpace);
+
+            AddNewCommand(new PourCommand(fromIndex, toIndex, from.TopColor, units));
+        }
+    }
+
+    public bool IsValidPour(Bottle from, Bottle to)
+    {
+        if (to.IsFull)
+            return false;
+
+        if (from.IsEmpty)
+            return false;
+
+        if (from.colorLayers.Peek().color != to.colorLayers.Peek().color)
+            return false;
+
+        if (to.IsSolved)
+            return false;
+
+        if (to.IsEmpty)
+            return true;
+
+        return from.TopColor == to.TopColor;
+    }
 }
