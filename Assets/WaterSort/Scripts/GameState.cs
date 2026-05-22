@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Clase que almacena los datos de la partida actual, solo almacena info.
 /// </summary>
-/// 
+///
 
 public class GameState
 {
