@@ -106,7 +106,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7970932229687158046}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 38.081192}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 8.944049, y: -0.00006866455}
@@ -163,6 +163,7 @@ GameObject:
   - component: {fileID: 1258409132141622002}
   - component: {fileID: 1659618028125925102}
   - component: {fileID: 5067348263365772388}
+  - component: {fileID: 2708836588223024684}
   m_Layer: 5
   m_Name: BottleView
   m_TagString: Untagged
@@ -184,7 +185,7 @@ RectTransform:
   m_Children:
   - {fileID: 7970932229687158046}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -38.081192}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 146.75333, y: -197.75}
@@ -241,7 +242,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 0}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 2708836588223024684}
+        m_TargetAssemblyTypeName: BottleView, Assembly-CSharp
+        m_MethodName: OnSelected
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1659618028125925102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -269,10 +282,23 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: 2c050a15ed8218f448568fe3428d1dc1, type: 2}
   - {fileID: 7400000, guid: 99adf308814a65642bc28368396b10fc, type: 2}
+  - {fileID: 7400000, guid: 2e390d2d88991e14fbc8ec3de1b14b38, type: 2}
   m_WrapMode: 0
-  m_PlayAutomatically: 1
+  m_PlayAutomatically: 0
   m_AnimatePhysics: 0
   m_CullingType: 0
+--- !u!114 &2708836588223024684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1532529559944896184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d9919c99979f046b4dc76e36c4b9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8872599800121442284
 GameObject:
   m_ObjectHideFlags: 0

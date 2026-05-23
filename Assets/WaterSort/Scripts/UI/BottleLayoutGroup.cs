@@ -16,6 +16,7 @@ public class BottleLayoutGroup : MonoBehaviour
     public int rightPadding;
     public int topPadding;
     public int bottomPadding;
+
     // Start is called before the first frame update
     void Start()
     {
