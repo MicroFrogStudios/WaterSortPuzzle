@@ -13,7 +13,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private int extraEmptyBottles = 1;
     
     private const int bottleCapacity = 4; // Each bottle can hold 4 units
-
+    private int prevFromIndex = -1;
     /// <summary>
     /// Generates a new unsolved game level.
     /// Creates a solved state and mixes it until well randomized.
@@ -22,21 +22,35 @@ public class LevelGenerator : MonoBehaviour
     public GameState GenerateNewLevel()
     {
         GameState state = CreateSolvedState();
-        
+
+
+
+        Debug.Log("Bottles count: " + state.bottles.Count);
+
         // Apply minimum reverse pours first
         for (int i = 0; i < minReversePours; i++)
         {
             ReverseRandomPour(state);
         }
 
-        int pours = 0;
+        int pourTries = 0;
         // Continue mixing until well mixed
-        while ( pours < minReversePours || !CheckMixed(state) && pours < maxReversePours)
+        while (pourTries < minReversePours || !CheckMixed(state) && pourTries < maxReversePours)
         {
             ReverseRandomPour(state);
-            pours++;
+               
+
+            pourTries++;
         }
-        
+        foreach (var b in state.bottles)
+        {
+            Debug.Log("colors of bottle:");
+            foreach (var c in b.GetColorsList())
+            {
+                Debug.Log($"{c}");
+            }
+        }
+       
         return state;
     }
 
@@ -46,25 +60,25 @@ public class LevelGenerator : MonoBehaviour
     /// The colors must match or the destination must be empty.
     /// </summary>
     /// <param name="state">The game state to modify</param>
-    public void ReverseRandomPour(GameState state)
+    public bool ReverseRandomPour(GameState state)
     {
         if (state.bottles.Count < 2)
-            return;
+            return false;
 
         // Collect all non-empty bottles
         List<int> nonEmptyIndices = new List<int>();
         for (int i = 0; i < state.bottles.Count; i++)
         {
-            if (!state.bottles[i].IsEmpty)
+            if (!state.bottles[i].IsEmpty && i != prevFromIndex)
                 nonEmptyIndices.Add(i);
         }
 
         if (nonEmptyIndices.Count == 0)
-            return;
+            return false;
 
         // Select random non-empty bottle to pour from
         int fromIndex = nonEmptyIndices[Random.Range(0, nonEmptyIndices.Count)];
-
+        
         // Collect all non-full bottles excluding the source
         List<int> nonFullIndices = new List<int>();
         for (int i = 0; i < state.bottles.Count; i++)
@@ -74,7 +88,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         if (nonFullIndices.Count == 0)
-            return;
+            return false;
 
         // Select random non-full bottle to pour to
         int toIndex = nonFullIndices[Random.Range(0, nonFullIndices.Count)];
@@ -84,7 +98,10 @@ public class LevelGenerator : MonoBehaviour
 
         // Check if it's a valid pour (colors must match or destination must be empty)
         if (!IsValidReversePour(from, to))
-            return;
+            return false;
+
+        // avoid joining again the same color
+        
         //if (!to.IsEmpty && from.TopColor != to.TopColor)
         //    return;
 
@@ -94,6 +111,8 @@ public class LevelGenerator : MonoBehaviour
 
         from.RemoveTop(units);
         to.AddTop(units, color);
+        prevFromIndex = toIndex;
+        return true;
     }
 
     bool IsValidReversePour(Bottle from, Bottle to)

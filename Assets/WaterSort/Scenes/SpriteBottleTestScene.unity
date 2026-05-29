@@ -336,7 +336,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minReversePours: 10
   maxReversePours: 50
-  filledBottles: 13
+  filledBottles: 5
   extraEmptyBottles: 2
 --- !u!114 &1099707388
 MonoBehaviour:

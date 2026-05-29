@@ -54,8 +54,8 @@ Material:
     - _TopPadding: 0
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Color1: {r: 1, g: 0, b: 0, a: 1}
-    - _Color2: {r: 0, g: 1, b: 0, a: 1}
+    - _Color1: {r: 0, g: 1, b: 0.41829205, a: 1}
+    - _Color2: {r: 0, g: 1, b: 0.94904304, a: 1}
     - _Color3: {r: 0, g: 0, b: 1, a: 1}
     - _Color4: {r: 1, g: 1, b: 0, a: 1}
     - _Flip: {r: 1, g: 1, b: 1, a: 1}

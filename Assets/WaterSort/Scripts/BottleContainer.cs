@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using static GameState;
 
 /// <summary>
 /// Manages the visual representation of bottles in the game.
@@ -81,7 +82,10 @@ public class BottleContainer : MonoBehaviour
         {
             GameObject bottleInstance = Instantiate(bottlePrefab, transform);
             bottleInstances.Add(bottleInstance);
-
+            Bottle b = PuzzleController.instance.state.bottles[i];
+            BottleView view = bottleInstance.GetComponent<BottleView>();
+            view.index = i;
+            view.UpdateColorShader();
             // Calculate row and column
             int row = i / rowOneBottleCount;
             int column = i % rowOneBottleCount;
@@ -92,7 +96,7 @@ public class BottleContainer : MonoBehaviour
                 + (column * (screenWidth / rowOneBottleCount))
                 + (bottleWidth / 2f)
                 + (screenWidth - BottleSpaceInRow1) / 2f
-                + row * (screenWidth / rowOneBottleCount) / 2f;
+                + row * (rowTwoBottleCount < rowOneBottleCount ? 1 : 0) * (screenWidth / rowOneBottleCount) / 2f;
             float yPos = startY - (row * (bottleHeight + verticalSpacing));
 
             bottleInstance.transform.localPosition = new Vector3(xPos, yPos, 0f);

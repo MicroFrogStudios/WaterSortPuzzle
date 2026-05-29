@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -9,7 +10,7 @@ using UnityEngine;
 
 public class GameState
 {
-    public struct ColorLayer
+    public class ColorLayer
     {
         public Color color;
         public int count;
@@ -59,6 +60,20 @@ public class GameState
             {
                 colorLayers.Push(new ColorLayer() { color = color, count = units });
             }
+        }
+
+        public List<Color> GetColorsList()
+        {
+            var list = new List<Color>();
+            foreach (var layer in colorLayers)
+            {
+                for (int i = 0; i < layer.count; i++)
+                {
+                    list.Add(layer.color);
+                }
+            }
+            
+            return list;
         }
 
         public Color TopColor

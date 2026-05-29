@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4596189410740973211}
   - component: {fileID: 2358019914930858709}
   - component: {fileID: 8286585682612543860}
+  - component: {fileID: 3078748426522594855}
   m_Layer: 0
   m_Name: BottlePrefab
   m_TagString: Untagged
@@ -68,6 +69,20 @@ SortingGroup:
   m_SortingLayer: 1
   m_SortingOrder: 1
   m_SortAtRoot: 1
+--- !u!114 &3078748426522594855
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237726803842845551}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79d9919c99979f046b4dc76e36c4b9e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  index: 0
+  colorsGO: {fileID: 9170124444535747809}
 --- !u!1 &5103290701589748567
 GameObject:
   m_ObjectHideFlags: 0
