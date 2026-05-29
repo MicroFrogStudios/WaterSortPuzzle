@@ -75,10 +75,7 @@ public class BottleContainer : MonoBehaviour
         float startY = totalHeight / 2f;
 
         float BottleSpaceInRow1 =
-            startX + (rowOneBottleCount - 1 * (screenWidth / rowOneBottleCount)) + bottleWidth / 2f;
-        float BottleSpaceInRow2 =
-            startX + (rowTwoBottleCount - 1 * (screenWidth / rowTwoBottleCount)) + bottleWidth / 2f;
-
+            (rowOneBottleCount - 1) * (screenWidth / rowOneBottleCount) + bottleWidth;
         // Instantiate and position bottles
         for (int i = 0; i < bottleCount; i++)
         {
@@ -88,16 +85,14 @@ public class BottleContainer : MonoBehaviour
             // Calculate row and column
             int row = i / rowOneBottleCount;
             int column = i % rowOneBottleCount;
-            float rowBottleCount = row == 0 ? rowOneBottleCount : rowTwoBottleCount;
-            float spaceWidth = row == 0 ? BottleSpaceInRow1 : BottleSpaceInRow2;
             // Calculate position
             // float xPos = startX + (column * (bottleWidth + horizontalSpacing)) + (bottleWidth / 2f);
             float xPos =
                 startX
                 + (column * (screenWidth / rowOneBottleCount))
                 + (bottleWidth / 2f)
-                + (screenWidth - spaceWidth) / 2f
-                + row * (totalHeight / 2f - bottleHeight / 2f);
+                + (screenWidth - BottleSpaceInRow1) / 2f
+                + row * (screenWidth / rowOneBottleCount) / 2f;
             float yPos = startY - (row * (bottleHeight + verticalSpacing));
 
             bottleInstance.transform.localPosition = new Vector3(xPos, yPos, 0f);
