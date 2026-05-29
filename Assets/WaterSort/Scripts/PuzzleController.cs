@@ -62,6 +62,7 @@ public class PuzzleController : MonoBehaviour
 
     public static PuzzleController instance;
 
+
     public void Awake()
     {
         if (instance == null)
@@ -70,7 +71,8 @@ public class PuzzleController : MonoBehaviour
         }
         commandStack = new();
 
-        state = new GameState();
+        
+       
     }
 
     public void AddNewCommand(ICommand command)

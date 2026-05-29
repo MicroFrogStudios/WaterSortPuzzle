@@ -45,6 +45,11 @@ public class GameState
 
         public void AddTop(int units, Color color)
         {
+            if (IsEmpty)
+            {
+                colorLayers.Push(new ColorLayer() { color = color, count = units });
+                    return;
+            }
             var top = colorLayers.Peek();
             if (top.color == color)
             {
