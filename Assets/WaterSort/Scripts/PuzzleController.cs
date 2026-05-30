@@ -83,7 +83,20 @@ public class PuzzleController : MonoBehaviour
 
     public void undoLastCommand()
     {
+        if (commandStack.Count <= 0)
+            return;
+
         commandStack.Pop().Undo();
+        GetComponent<BottleContainer>().UpdateShaders();
+    }
+
+    public void ResetLevel()
+    {
+        while (commandStack.Count > 0)
+        {
+            undoLastCommand();
+        }
+        
     }
 
     public bool TryPour(int fromIndex, int toIndex)

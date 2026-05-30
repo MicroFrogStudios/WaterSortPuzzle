@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 using UnityEngine.XR;
 using static GameState;
 
@@ -51,7 +52,9 @@ public class BottleView : MonoBehaviour
 
     private void ChangeState(BaseBottleState newState)
     {
+        bottleState.ExitState();
         bottleState = newState;
+        bottleState.EnterState();
     }
 
     internal abstract class BaseBottleState
@@ -62,6 +65,16 @@ public class BottleView : MonoBehaviour
         public BaseBottleState(BottleView context)
         {
             this.context = context;
+        }
+
+        public virtual void EnterState()
+        {
+
+        }
+
+        public virtual void ExitState()
+        {
+
         }
     }
 
@@ -93,8 +106,7 @@ public class BottleView : MonoBehaviour
         public SelectedBottleState(BottleView context)
             : base(context)
         {
-            context.animator.SetBool("selected", true);
-            selectedView = context;
+            
         }
 
         public override void StateClick()
@@ -103,12 +115,29 @@ public class BottleView : MonoBehaviour
             context.ChangeState(new IdleBottleState(context));
             selectedView = null;
         }
+
+        public override void EnterState()
+        {
+            context.animator.SetBool("selected", true);
+            selectedView = context;
+        }
     }
 
     internal class PouringBottleState : BaseBottleState
     {
+        BottleView to;
         public PouringBottleState(BottleView context, BottleView to)
             : base(context)
+        {
+            this.to = to;
+        }
+
+        public override void StateClick()
+        {
+            //not interactable;
+        }
+
+        public override void EnterState()
         {
             if (PuzzleController.instance.TryPour(context.index, to.index))
             {
@@ -119,20 +148,17 @@ public class BottleView : MonoBehaviour
 
             selectedView = null;
             context.animator.SetBool("selected", false);
-        }
-
-        public override void StateClick()
-        {
-            //not interactable;
+            context.ChangeState(new IdleBottleState(context));
         }
     }
 
     public IEnumerator PourSequence(BottleView bottleFrom, BottleView bottleTo)
     {
         bool pouringFromRight = bottleTo.pouredToFromRight;
+        bottleFrom.GetComponent<SortingGroup>().sortingOrder = 2;
         Vector3 targetPos =
             bottleTo.transform.position
-            + Vector3.up * .2f
+            + Vector3.up * .3f
             + Vector3.right * 0.2f * (pouringFromRight ? -1 : 1);
         while (Vector2.Distance(bottleFrom.transform.position, targetPos) > 0.01f)
         {
@@ -166,5 +192,6 @@ public class BottleView : MonoBehaviour
         bottleFrom.UpdateColorShader();
         bottleTo.UpdateColorShader();
         bottleFrom.ChangeState(new IdleBottleState(bottleFrom));
+        bottleFrom.GetComponent<SortingGroup>().sortingOrder = 1;
     }
 }

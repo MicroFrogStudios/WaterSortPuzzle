@@ -20,7 +20,7 @@ public class BottleContainer : MonoBehaviour
     [SerializeField]
     private float padding = 0.5f;
 
-    private List<GameObject> bottleInstances = new List<GameObject>();
+    public List<GameObject> bottleViewInstances = new List<GameObject>();
 
     /// <summary>
     /// Initializes bottle views based on the provided game state.
@@ -81,7 +81,7 @@ public class BottleContainer : MonoBehaviour
         for (int i = 0; i < bottleCount; i++)
         {
             GameObject bottleInstance = Instantiate(bottlePrefab, transform);
-            bottleInstances.Add(bottleInstance);
+            bottleViewInstances.Add(bottleInstance);
             Bottle b = PuzzleController.instance.state.bottles[i];
             BottleView view = bottleInstance.GetComponent<BottleView>();
             view.index = i;
@@ -105,15 +105,23 @@ public class BottleContainer : MonoBehaviour
         }
     }
 
+    public void UpdateShaders()
+    {
+        foreach (var bv in bottleViewInstances)
+        {
+            bv.GetComponent<BottleView>().UpdateColorShader();
+        }
+    }
+
     /// <summary>
     /// Clears all instantiated bottle instances.
     /// </summary>
     public void ClearBottles()
     {
-        foreach (GameObject bottle in bottleInstances)
+        foreach (GameObject bottle in bottleViewInstances)
         {
             Destroy(bottle);
         }
-        bottleInstances.Clear();
+        bottleViewInstances.Clear();
     }
 }
