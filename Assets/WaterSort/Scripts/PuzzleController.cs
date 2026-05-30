@@ -86,7 +86,7 @@ public class PuzzleController : MonoBehaviour
         commandStack.Pop().Undo();
     }
 
-    public void TryPour(int fromIndex, int toIndex)
+    public bool TryPour(int fromIndex, int toIndex)
     {
         Bottle from = instance.state.bottles[fromIndex];
         Bottle to = instance.state.bottles[toIndex];
@@ -95,7 +95,9 @@ public class PuzzleController : MonoBehaviour
             int units = Mathf.Min(from.TopCount, to.AvailableSpace);
 
             AddNewCommand(new PourCommand(fromIndex, toIndex, from.TopColor, units));
+            return true;
         }
+        return false;
     }
 
     public bool IsValidPour(Bottle from, Bottle to)
@@ -106,14 +108,16 @@ public class PuzzleController : MonoBehaviour
         if (from.IsEmpty)
             return false;
 
+        if (to.IsEmpty)
+            return true;
+
         if (from.colorLayers.Peek().color != to.colorLayers.Peek().color)
             return false;
 
         if (to.IsSolved)
             return false;
 
-        if (to.IsEmpty)
-            return true;
+        
 
         return from.TopColor == to.TopColor;
     }

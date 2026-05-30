@@ -11,7 +11,7 @@ public class LevelGenerator : MonoBehaviour
     [SerializeField] private int maxReversePours = 50;
     [SerializeField] private int filledBottles = 4;
     [SerializeField] private int extraEmptyBottles = 1;
-    
+    public List<Color> colorsForUse;
     private const int bottleCapacity = 4; // Each bottle can hold 4 units
     private int prevFromIndex = -1;
     /// <summary>
@@ -208,6 +208,9 @@ public class LevelGenerator : MonoBehaviour
     /// <returns>A random color with full alpha</returns>
     private Color GetRandomColor()
     {
-        return new Color(Random.value, Random.value, Random.value, 1f);
+        int ci = Random.Range(0, colorsForUse.Count);
+        Color c = colorsForUse[ci];
+        colorsForUse.RemoveAt(ci);
+        return c;
     }
 }

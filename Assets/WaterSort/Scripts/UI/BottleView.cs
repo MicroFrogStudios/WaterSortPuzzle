@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.XR;
 using static GameState;
@@ -7,19 +8,25 @@ using static GameState;
 public class BottleView : MonoBehaviour
 {
     Animator animator;
-    Animation anim;
     public int index;
-    BaseBottleState state;
+    BaseBottleState bottleState;
     public GameObject colorsGO;
+
+    public Vector3 orignalPos;
+    public bool pouredToFromRight;
+
+    public static BottleView selectedView = null;
+
     public void Awake()
     {
         animator = GetComponent<Animator>();
-        anim = GetComponent<Animation>();
+        bottleState = new IdleBottleState(this);
     }
 
     public void OnSelected()
     {
-        anim.Play("selectBottle");
+        Debug.Log(bottleState);
+        bottleState.StateClick();
     }
 
     public void UpdateColorShader()
@@ -30,14 +37,22 @@ public class BottleView : MonoBehaviour
         for (int i = 0; i < 4; i++)
         {
             if (i < colors.Count)
-                colorsGO.GetComponent<SpriteRenderer>().material.SetColor($"_Color{i+1}", colors[i]);
+                colorsGO
+                    .GetComponent<SpriteRenderer>()
+                    .material
+                    .SetColor($"_Color{i + 1}", colors[i]);
             else
-                colorsGO.GetComponent<SpriteRenderer>().material.SetColor($"_Color{i + 1}", Color.clear);
+                colorsGO
+                    .GetComponent<SpriteRenderer>()
+                    .material
+                    .SetColor($"_Color{i + 1}", Color.clear);
         }
-        
     }
 
-    private void ChangeState(BaseBottleState newState) { }
+    private void ChangeState(BaseBottleState newState)
+    {
+        bottleState = newState;
+    }
 
     internal abstract class BaseBottleState
     {
@@ -60,6 +75,12 @@ public class BottleView : MonoBehaviour
             if (PuzzleController.instance.state.bottles[context.index].IsSolved)
                 return;
 
+            if (selectedView != null && selectedView != context)
+            {
+                selectedView.ChangeState(new PouringBottleState(selectedView, context));
+                return;
+            }
+
             if (PuzzleController.instance.state.bottles[context.index].IsEmpty)
                 return;
 
@@ -70,11 +91,80 @@ public class BottleView : MonoBehaviour
     internal class SelectedBottleState : BaseBottleState
     {
         public SelectedBottleState(BottleView context)
-            : base(context) { }
+            : base(context)
+        {
+            context.animator.SetBool("selected", true);
+            selectedView = context;
+        }
 
         public override void StateClick()
         {
-            throw new System.NotImplementedException();
+            context.animator.SetBool("selected", false);
+            context.ChangeState(new IdleBottleState(context));
+            selectedView = null;
         }
+    }
+
+    internal class PouringBottleState : BaseBottleState
+    {
+        public PouringBottleState(BottleView context, BottleView to)
+            : base(context)
+        {
+            if (PuzzleController.instance.TryPour(context.index, to.index))
+            {
+                context.StartCoroutine(context.PourSequence(context, to));
+                selectedView = null;
+                return;
+            }
+
+            selectedView = null;
+            context.animator.SetBool("selected", false);
+        }
+
+        public override void StateClick()
+        {
+            //not interactable;
+        }
+    }
+
+    public IEnumerator PourSequence(BottleView bottleFrom, BottleView bottleTo)
+    {
+        bool pouringFromRight = bottleTo.pouredToFromRight;
+        Vector3 targetPos =
+            bottleTo.transform.position
+            + Vector3.up * .2f
+            + Vector3.right * 0.2f * (pouringFromRight ? -1 : 1);
+        while (Vector2.Distance(bottleFrom.transform.position, targetPos) > 0.01f)
+        {
+            bottleFrom.transform.position = Vector2.Lerp(
+                bottleFrom.transform.position,
+                targetPos,
+                .1f
+            );
+            yield return null;
+        }
+
+        if (pouringFromRight)
+            bottleFrom.animator.SetTrigger("pourRight");
+        else
+            bottleFrom.animator.SetTrigger("pourLeft");
+
+        yield return new WaitForSeconds(0.6f);
+
+        bottleFrom.animator.SetBool("selected", false);
+
+        while (Vector2.Distance(bottleFrom.transform.position, bottleFrom.orignalPos) > 0.01f)
+        {
+            bottleFrom.transform.position = Vector2.Lerp(
+                bottleFrom.transform.position,
+                bottleFrom.orignalPos,
+                .1f
+            );
+            yield return null;
+        }
+
+        bottleFrom.UpdateColorShader();
+        bottleTo.UpdateColorShader();
+        bottleFrom.ChangeState(new IdleBottleState(bottleFrom));
     }
 }

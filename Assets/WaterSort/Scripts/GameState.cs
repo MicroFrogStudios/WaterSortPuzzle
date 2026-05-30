@@ -72,7 +72,7 @@ public class GameState
                     list.Add(layer.color);
                 }
             }
-            
+            list.Reverse();
             return list;
         }
 

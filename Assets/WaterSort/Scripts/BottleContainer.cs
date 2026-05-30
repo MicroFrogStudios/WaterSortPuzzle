@@ -100,6 +100,8 @@ public class BottleContainer : MonoBehaviour
             float yPos = startY - (row * (bottleHeight + verticalSpacing));
 
             bottleInstance.transform.localPosition = new Vector3(xPos, yPos, 0f);
+            view.orignalPos = bottleInstance.transform.localPosition;
+            view.pouredToFromRight = column >= rowOneBottleCount / 2;
         }
     }
 

@@ -334,10 +334,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5bdebd9ed84e4b41a4e1bf8d54c9674, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minReversePours: 10
-  maxReversePours: 50
-  filledBottles: 5
+  minReversePours: 340
+  maxReversePours: 649
+  filledBottles: 7
   extraEmptyBottles: 2
+  colorsForUse:
+  - {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}
+  - {r: 1, g: 0.2216981, b: 0.2216981, a: 1}
+  - {r: 0.27305093, g: 0.41508198, b: 0.9811321, a: 1}
+  - {r: 0.3160377, g: 1, b: 0.3320265, a: 1}
+  - {r: 0.36320752, g: 1, b: 0.97400117, a: 1}
+  - {r: 0.99870324, g: 1, b: 0.4481132, a: 1}
+  - {r: 0.63803285, g: 0.2688679, b: 1, a: 1}
+  - {r: 0.24528301, g: 0.24528301, b: 0.24528301, a: 1}
+  - {r: 1, g: 0.27058828, b: 0.6349477, a: 1}
+  - {r: 1, g: 0.5385372, b: 0.27058828, a: 1}
+  - {r: 0.27058828, g: 0.6610631, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 0.78503066, b: 0.2783019, a: 1}
 --- !u!114 &1099707388
 MonoBehaviour:
   m_ObjectHideFlags: 0
