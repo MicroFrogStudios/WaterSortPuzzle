@@ -18,12 +18,18 @@ public class GameManager : MonoBehaviour
     public bool didUndo = false;
     public bool extraBottle = false;
     private int levelsSolved = 0;
+    private const string LEVELS_SOLVED_STR = "LevelsSolved";
 
     // Start is called before the first frame update
     void Start()
     {
         levelGenerator = GetComponent<LevelGenerator>();
         bottleContainer = GetComponent<BottleContainer>();
+
+        // Load the number of levels solved from persistent data
+        levelsSolved = PlayerPrefs.GetInt(LEVELS_SOLVED_STR, 0);
+        levelLabel.text = (levelsSolved + 1).ToString();
+
         levelGenerator.ConfigureLevel(StartBottles, emptyBottles);
         PuzzleController.instance.state = levelGenerator.GenerateNewLevel();
 
@@ -44,12 +50,7 @@ public class GameManager : MonoBehaviour
 
             if (hit.collider != null)
             {
-                if (
-                    hit.collider
-                        .transform
-                        .parent
-                        .TryGetComponent(out BottleView bottleHit)
-                )
+                if (hit.collider.transform.parent.TryGetComponent(out BottleView bottleHit))
                 {
                     bottleHit.OnSelected();
                 }
@@ -59,13 +60,15 @@ public class GameManager : MonoBehaviour
 
     public void Won()
     {
-        victoryUI.LevelWonEffects(didUndo,extraBottle);
-
+        victoryUI.LevelWonEffects(didUndo, extraBottle);
     }
 
     public void NextLevel()
     {
         levelsSolved++;
+        PlayerPrefs.SetInt(LEVELS_SOLVED_STR, levelsSolved);
+        PlayerPrefs.Save();
+
         levelLabel.text = (levelsSolved + 1).ToString();
         victoryUI.HideEffects();
         PuzzleController.instance.ResetLevel();
@@ -100,16 +103,15 @@ public class GameManager : MonoBehaviour
     public void Reset()
     {
         didUndo = false;
-        
+
         PuzzleController.instance.ResetLevel();
 
         if (extraBottle)
         {
             var Bottles = PuzzleController.instance.state.bottles;
-            Bottles.RemoveAt(Bottles.Count -1);
+            Bottles.RemoveAt(Bottles.Count - 1);
             extraBottle = false;
             bottleContainer.InitializeBottleViews();
         }
-
     }
 }
