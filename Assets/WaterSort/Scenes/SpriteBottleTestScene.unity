@@ -910,9 +910,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bottlePrefab: {fileID: 1237726803842845551, guid: 1b8f3504b67adab4bbfd7e8594cb92f1, type: 3}
-  horizontalSpacing: 0.1
+  horizontalSpacing: 0.03
   verticalSpacing: 0.1
-  padding: 0.6
+  padding: 0.4
   bottleViewInstances: []
 --- !u!114 &1099707386
 MonoBehaviour:
@@ -943,7 +943,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minReversePours: 340
   maxReversePours: 649
-  filledBottles: 4
+  filledBottles: 3
   extraEmptyBottles: 1
   colorsForUse:
   - {r: 0.754717, g: 0.754717, b: 0.754717, a: 1}

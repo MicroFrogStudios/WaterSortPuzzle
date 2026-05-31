@@ -165,7 +165,7 @@ public class BottleView : MonoBehaviour
             bottleFrom.transform.position = Vector2.Lerp(
                 bottleFrom.transform.position,
                 targetPos,
-                10f * Time.deltaTime
+                20f * Time.deltaTime
             );
             yield return null;
         }
@@ -175,7 +175,7 @@ public class BottleView : MonoBehaviour
         else
             bottleFrom.animator.SetTrigger("pourLeft");
 
-        yield return new WaitForSeconds(0.6f);
+        yield return new WaitForSeconds(0.3f);
 
         bottleFrom.UpdateColorShader();
         bottleTo.UpdateColorShader();
@@ -186,7 +186,7 @@ public class BottleView : MonoBehaviour
             bottleFrom.transform.position = Vector2.Lerp(
                 bottleFrom.transform.position,
                 bottleFrom.orignalPos,
-                10f * Time.deltaTime
+                20f * Time.deltaTime
             );
             yield return null;
         }
