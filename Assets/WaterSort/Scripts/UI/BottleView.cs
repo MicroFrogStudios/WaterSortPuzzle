@@ -26,7 +26,6 @@ public class BottleView : MonoBehaviour
 
     public void OnSelected()
     {
-        Debug.Log(bottleState);
         bottleState.StateClick();
     }
 
