@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/WaterSort/Scenes/SpriteBottleTestScene.unity
+    path: Assets/WaterSort/Scenes/InfiniteBottleGameScene.unity
     guid: ae24228f29a9db54494066d7bcdeebc4
   m_configObjects: {}

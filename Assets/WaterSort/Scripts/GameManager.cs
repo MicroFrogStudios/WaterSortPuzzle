@@ -30,7 +30,10 @@ public class GameManager : MonoBehaviour
         levelsSolved = PlayerPrefs.GetInt(LEVELS_SOLVED_STR, 0);
         levelLabel.text = (levelsSolved + 1).ToString();
 
-        levelGenerator.ConfigureLevel(StartBottles, emptyBottles);
+        levelGenerator.ConfigureLevel(
+            Mathf.Clamp(StartBottles + levelsSolved / 2, 3, maxBottles),
+            emptyBottles
+        );
         PuzzleController.instance.state = levelGenerator.GenerateNewLevel();
 
         bottleContainer.InitializeBottleViews();
@@ -46,7 +49,7 @@ public class GameManager : MonoBehaviour
             Vector2 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
 
             // Raycast from the mouse position downward
-            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.down, 100f);
+            RaycastHit2D hit = Physics2D.Raycast(worldPos, Vector2.down, .1f);
 
             if (hit.collider != null)
             {
