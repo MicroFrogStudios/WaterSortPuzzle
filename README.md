@@ -16,8 +16,11 @@ A water sorting puzzle game where your goal is to organize colored liquids so th
 ## Features
 
  **Infinite Gameplay** - Procedurally generated levels that increase in difficulty
+
  **Star Rating System** - Earn up to 3 stars based on your performance
+
  **Progressive Difficulty** - Start with 4 bottles and work up to 12
+ 
  **Auto-Save** - Your progress is saved automatically
 
 ## Bonus Objectives
