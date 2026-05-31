@@ -1,10 +1,8 @@
-# MochicakeWaterSort
-
-A relaxing yet challenging puzzle game where you sort colored liquids into bottles!
+# Water Sort Puzzle
 
 ## About the Game
 
-**MochicakeWaterSort** is a water sorting puzzle game where your goal is to organize colored liquids so that each bottle contains only one color. It's an addictive puzzle experience that gets progressively harder as you advance through levels.
+A water sorting puzzle game where your goal is to organize colored liquids so that each bottle contains only one color.
 
 ## How to Play
 
