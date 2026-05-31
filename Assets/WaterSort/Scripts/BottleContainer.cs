@@ -27,8 +27,10 @@ public class BottleContainer : MonoBehaviour
     /// Instantiates bottle prefabs and arranges them in two rows.
     /// </summary>
     /// <param name="state">The current game state containing bottle data</param>
-    public void InitializeBottleViews(GameState state)
+    public void InitializeBottleViews()
     {
+
+        GameState state = PuzzleController.instance.state;
         if (bottlePrefab == null)
         {
             Debug.LogError("BottlePrefab is not assigned!");

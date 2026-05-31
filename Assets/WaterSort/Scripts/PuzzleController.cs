@@ -102,6 +102,15 @@ public class PuzzleController : MonoBehaviour
         
     }
 
+    public void AddExtraBottle()
+    {
+        Bottle bottle = new();
+        bottle.capacity = 4;
+        bottle.colorLayers = new Stack<GameState.ColorLayer>();
+
+        state.bottles.Add(bottle);
+    }
+
     public bool TryPour(int fromIndex, int toIndex)
     {
         Bottle from = instance.state.bottles[fromIndex];

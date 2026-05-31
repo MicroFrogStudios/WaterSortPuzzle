@@ -10,11 +10,13 @@ public class GameManager : MonoBehaviour
     BottleContainer bottleContainer;
 
     public Button nextLevelButton;
+    public VictoryScript victoryUI;
     public TMP_Text levelLabel;
     public int StartBottles = 3;
     public int emptyBottles = 1;
     public int maxBottles = 12;
-
+    public bool didUndo = false;
+    public bool extraBottle = false;
     private int levelsSolved = 0;
 
     // Start is called before the first frame update
@@ -25,8 +27,8 @@ public class GameManager : MonoBehaviour
         levelGenerator.ConfigureLevel(StartBottles, emptyBottles);
         PuzzleController.instance.state = levelGenerator.GenerateNewLevel();
 
-        bottleContainer.InitializeBottleViews(PuzzleController.instance.state);
-        PuzzleController.instance.LevelSolved.AddListener(ShowNextLevelButton);
+        bottleContainer.InitializeBottleViews();
+        PuzzleController.instance.LevelSolved.AddListener(Won);
         nextLevelButton.onClick.AddListener(NextLevel);
     }
 
@@ -46,7 +48,7 @@ public class GameManager : MonoBehaviour
                     hit.collider
                         .transform
                         .parent
-                        .TryGetComponent<BottleView>(out BottleView bottleHit)
+                        .TryGetComponent(out BottleView bottleHit)
                 )
                 {
                     bottleHit.OnSelected();
@@ -55,24 +57,59 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ShowNextLevelButton()
+    public void Won()
     {
-        nextLevelButton.gameObject.SetActive(true);
+        victoryUI.LevelWonEffects(didUndo,extraBottle);
+
     }
 
     public void NextLevel()
     {
         levelsSolved++;
         levelLabel.text = (levelsSolved + 1).ToString();
-        nextLevelButton.gameObject.SetActive(false);
+        victoryUI.HideEffects();
         PuzzleController.instance.ResetLevel();
-
+        didUndo = false;
+        extraBottle = false;
         levelGenerator.ConfigureLevel(
             Mathf.Clamp(StartBottles + levelsSolved / 2, 3, maxBottles),
             emptyBottles
         );
 
         PuzzleController.instance.state = levelGenerator.GenerateNewLevel();
-        bottleContainer.InitializeBottleViews(PuzzleController.instance.state);
+        bottleContainer.InitializeBottleViews();
+    }
+
+    public void UseUndo()
+    {
+        didUndo = true;
+        PuzzleController.instance.undoLastCommand();
+    }
+
+    public void AddExtraBottle()
+    {
+        if (extraBottle)
+            return;
+
+        extraBottle = true;
+
+        PuzzleController.instance.AddExtraBottle();
+        bottleContainer.InitializeBottleViews();
+    }
+
+    public void Reset()
+    {
+        didUndo = false;
+        
+        PuzzleController.instance.ResetLevel();
+
+        if (extraBottle)
+        {
+            var Bottles = PuzzleController.instance.state.bottles;
+            Bottles.RemoveAt(Bottles.Count -1);
+            extraBottle = false;
+            bottleContainer.InitializeBottleViews();
+        }
+
     }
 }

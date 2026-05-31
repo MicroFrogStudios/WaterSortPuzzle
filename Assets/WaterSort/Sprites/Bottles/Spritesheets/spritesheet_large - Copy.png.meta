@@ -93,6 +93,19 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -126,7 +139,7 @@ TextureImporter:
         width: 16
         height: 46
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,6 +147,48 @@ TextureImporter:
       bones: []
       spriteID: ec52e017b5db88a47b61b3914e0c603a
       internalID: -1851651198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spritesheet_large - Copy_2
+      rect:
+        serializedVersion: 2
+        x: 135
+        y: 19
+        width: 42
+        height: 42
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96e6c3487eb549d40949f5a77d6ecf62
+      internalID: -966095227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: spritesheet_large - Copy_3
+      rect:
+        serializedVersion: 2
+        x: 327
+        y: 231
+        width: 302
+        height: 303
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1c590a43e75b73448846cc137daa8ca5
+      internalID: 159431748
       vertices: []
       indices: 
       edges: []
@@ -151,6 +206,8 @@ TextureImporter:
     nameFileIdTable:
       spritesheet_large - Copy_0: 1122210849
       spritesheet_large - Copy_1: -1851651198
+      spritesheet_large - Copy_2: -966095227
+      spritesheet_large - Copy_3: 159431748
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
