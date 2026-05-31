@@ -103,4 +103,15 @@ public class GameState
     }
 
     public List<Bottle> bottles;
+
+    public bool IsSolved { get
+        {
+            foreach (var bottle in bottles)
+            {
+                if (!bottle.IsEmpty && !bottle.IsSolved)
+                    return false;
+            }
+
+            return true;
+        } }
 }

@@ -165,7 +165,7 @@ public class BottleView : MonoBehaviour
             bottleFrom.transform.position = Vector2.Lerp(
                 bottleFrom.transform.position,
                 targetPos,
-                .1f
+                10f * Time.deltaTime
             );
             yield return null;
         }
@@ -177,6 +177,8 @@ public class BottleView : MonoBehaviour
 
         yield return new WaitForSeconds(0.6f);
 
+        bottleFrom.UpdateColorShader();
+        bottleTo.UpdateColorShader();
         bottleFrom.animator.SetBool("selected", false);
 
         while (Vector2.Distance(bottleFrom.transform.position, bottleFrom.orignalPos) > 0.01f)
@@ -184,13 +186,12 @@ public class BottleView : MonoBehaviour
             bottleFrom.transform.position = Vector2.Lerp(
                 bottleFrom.transform.position,
                 bottleFrom.orignalPos,
-                .1f
+                10f * Time.deltaTime
             );
             yield return null;
         }
 
-        bottleFrom.UpdateColorShader();
-        bottleTo.UpdateColorShader();
+        
         bottleFrom.ChangeState(new IdleBottleState(bottleFrom));
         bottleFrom.GetComponent<SortingGroup>().sortingOrder = 1;
     }

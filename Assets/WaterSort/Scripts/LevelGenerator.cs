@@ -19,10 +19,18 @@ public class LevelGenerator : MonoBehaviour
     /// Creates a solved state and mixes it until well randomized.
     /// </summary>
     /// <returns>A new unsolved GameState</returns>
+    
+    public void ConfigureLevel(int filledBottles, int emptyBottles)
+    {
+        this.filledBottles = filledBottles;
+        extraEmptyBottles = emptyBottles;
+    }
+
+
     public GameState GenerateNewLevel()
     {
         GameState state = CreateSolvedState();
-
+        prevFromIndex = -1;
 
 
         Debug.Log("Bottles count: " + state.bottles.Count);
@@ -169,9 +177,11 @@ public class LevelGenerator : MonoBehaviour
 
         // Generate unique colors for each filled bottle
         Color[] colors = new Color[filledBottles];
+
+        var possibleColors = new List<Color>(colorsForUse);
         for (int i = 0; i < filledBottles; i++)
         {
-            colors[i] = GetRandomColor();
+            colors[i] = GetRandomColor(possibleColors);
         }
 
         // Create filled bottles (each with one solid color)
@@ -206,11 +216,11 @@ public class LevelGenerator : MonoBehaviour
     /// Generates a random color for bottle creation.
     /// </summary>
     /// <returns>A random color with full alpha</returns>
-    private Color GetRandomColor()
+    private Color GetRandomColor(List<Color> colorList)
     {
-        int ci = Random.Range(0, colorsForUse.Count);
-        Color c = colorsForUse[ci];
-        colorsForUse.RemoveAt(ci);
+        int ci = Random.Range(0, colorList.Count);
+        Color c = colorList[ci];
+        colorList.RemoveAt(ci);
         return c;
     }
 }

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Data;
 using UnityEngine;
+using UnityEngine.Events;
 using Bottle = GameState.Bottle;
 
 /// <summary>
@@ -9,6 +10,8 @@ using Bottle = GameState.Bottle;
 /// </summary>
 public class PuzzleController : MonoBehaviour
 {
+
+    public UnityEvent LevelSolved;
     /// <summary>
     /// Interfaz para comandos, realmente no hace falta en este prototipo pues solo tenemos un comando, pero lo incluyo por organizacion y escalabilidad futura.
     /// </summary>
@@ -108,6 +111,12 @@ public class PuzzleController : MonoBehaviour
             int units = Mathf.Min(from.TopCount, to.AvailableSpace);
 
             AddNewCommand(new PourCommand(fromIndex, toIndex, from.TopColor, units));
+            
+            if (state.IsSolved)
+            {
+                LevelSolved.Invoke();
+            }
+
             return true;
         }
         return false;
