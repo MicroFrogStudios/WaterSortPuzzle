@@ -67,15 +67,9 @@ public class BottleView : MonoBehaviour
             this.context = context;
         }
 
-        public virtual void EnterState()
-        {
+        public virtual void EnterState() { }
 
-        }
-
-        public virtual void ExitState()
-        {
-
-        }
+        public virtual void ExitState() { }
     }
 
     internal class IdleBottleState : BaseBottleState
@@ -104,10 +98,7 @@ public class BottleView : MonoBehaviour
     internal class SelectedBottleState : BaseBottleState
     {
         public SelectedBottleState(BottleView context)
-            : base(context)
-        {
-            
-        }
+            : base(context) { }
 
         public override void StateClick()
         {
@@ -126,6 +117,7 @@ public class BottleView : MonoBehaviour
     internal class PouringBottleState : BaseBottleState
     {
         BottleView to;
+
         public PouringBottleState(BottleView context, BottleView to)
             : base(context)
         {
@@ -186,12 +178,11 @@ public class BottleView : MonoBehaviour
             bottleFrom.transform.position = Vector2.Lerp(
                 bottleFrom.transform.position,
                 bottleFrom.orignalPos,
-                20f * Time.deltaTime
+                7f * Time.deltaTime
             );
             yield return null;
         }
 
-        
         bottleFrom.ChangeState(new IdleBottleState(bottleFrom));
         bottleFrom.GetComponent<SortingGroup>().sortingOrder = 1;
     }
